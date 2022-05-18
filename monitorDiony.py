@@ -5,20 +5,20 @@ import randomheaders
 from dhooks import Webhook, Embed
 
 
-def monitorGrid():
-    mainUrl = "https://www.grid.com.ar/calzado/Hombre?PS=24&map=c,specificationFilter_23&O=OrderByReleaseDateDESC"
+def monitorDiony():
+    mainUrl = f"https://www.digitalsport.com.ar/dionysos/prods/?sort=available_at%20desc&category[1]=1"
     source = requests.get(mainUrl, headers=randomheaders.LoadHeader()).text
     mainSoup = BeautifulSoup(source, 'html.parser')
-    discordWebhook = Webhook("https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv")
+    discordWebhook = Webhook("https://discord.com/api/webhooks/975808860759666688/HAQ8iEEZkqMlytLZAhmLO5UODY92-EEjTA5NxUVmMTs6oQcwYsMsh9xCp9FmlDjsnz-J")
     embed = Embed(
         description="**DIONYSOS**",
         color= 0xB61ABC,
         timestamp='now'
     )
 
-    for items in mainSoup.find_all('div', id='product'):
+    for items in mainSoup.find_all('a', class_='product'):
 
-        pairLink  = items.a.get('href')        
+        pairLink  = 'https://www.digitalsport.com.ar' + items.get('href')        
         filename  = 'dionyNewInLinks.txt'
 
         with open(filename, 'r') as rf:
@@ -26,9 +26,9 @@ def monitorGrid():
             with open(filename, 'a') as af:
                 if pairLink not in read:
 
-                    pairTitle = items.a.get('title')
-                    pairImg   = items.img.get('src')
-                    pairPrice = items.find('span', class_="best-price").string.strip()
+                    pairTitle = items.get('data-title')
+                    pairImg   = 'https://www.digitalsport.com.ar' + items.find('img', class_='img').get('data-src')
+                    pairPrice = items.find('div', class_="precio").string
 
                     af.write('\n' + pairLink)
 
@@ -46,4 +46,4 @@ def monitorGrid():
                 else:
                     print('No new links found')
 
-monitorGrid()
+monitorDiony()

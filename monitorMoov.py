@@ -9,7 +9,7 @@ def monitorMoov():
     mainUrl = "https://www.moov.com.ar/hombre/calzado?srule=newest-products&start=0&sz=12"
     source = requests.get(mainUrl, headers=randomheaders.LoadHeader()).text
     mainSoup = BeautifulSoup(source, 'html.parser')
-    discordWebhook = Webhook("https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv")
+    discordWebhook = Webhook("https://discord.com/api/webhooks/975808860759666688/HAQ8iEEZkqMlytLZAhmLO5UODY92-EEjTA5NxUVmMTs6oQcwYsMsh9xCp9FmlDjsnz-J")
     embed = Embed(
         description="**MOOV**",
         color= 0x000000,
