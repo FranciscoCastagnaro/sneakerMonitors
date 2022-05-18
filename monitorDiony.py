@@ -4,46 +4,53 @@ from bs4 import BeautifulSoup
 import randomheaders
 from dhooks import Webhook, Embed
 
+mainWH = "https://discord.com/api/webhooks/976611966833524797/7U93EdmUQyUAPig2HMgcb078Yy9zDEgq1u3ReI26jb_HRC3UDCWZ18wi-8y6Pm5MSCFj"
+testWH = "https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv"
 
 def monitorDiony():
-    mainUrl = f"https://www.digitalsport.com.ar/dionysos/prods/?sort=available_at%20desc&category[1]=1"
-    source = requests.get(mainUrl, headers=randomheaders.LoadHeader()).text
-    mainSoup = BeautifulSoup(source, 'html.parser')
-    discordWebhook = Webhook("https://discord.com/api/webhooks/975808860759666688/HAQ8iEEZkqMlytLZAhmLO5UODY92-EEjTA5NxUVmMTs6oQcwYsMsh9xCp9FmlDjsnz-J")
+    
     embed = Embed(
         description="**DIONYSOS**",
         color= 0xB61ABC,
         timestamp='now'
     )
 
-    for items in mainSoup.find_all('a', class_='product'):
+    coreLinks = [f"https://www.digitalsport.com.ar/dionysos/prods/?sort=available_at%20desc&category[1]=1", f"https://www.digitalsport.com.ar/dionysos/prods/?category[1]=1&category[2]=25&sort=available_at%20desc", f"https://www.digitalsport.com.ar/dionysos/prods/?category[1]=1&category[2]=103&sort=available_at%20desc", f"https://www.digitalsport.com.ar/search/?search=dunk&sort=available_at%20desc", f"https://www.digitalsport.com.ar/search/?search=jordan&category[1]=1&sort=available_at%20desc"]
+    discordWebhook = Webhook(testWH)
 
-        pairLink  = 'https://www.digitalsport.com.ar' + items.get('href')        
-        filename  = 'dionyNewInLinks.txt'
+    for currentLink in coreLinks:
 
-        with open(filename, 'r') as rf:
-            read = rf.read();
-            with open(filename, 'a') as af:
-                if pairLink not in read:
+        source = requests.get(currentLink, headers=randomheaders.LoadHeader()).text
+        mainSoup = BeautifulSoup(source, 'html.parser')
 
-                    pairTitle = items.get('data-title')
-                    pairImg   = 'https://www.digitalsport.com.ar' + items.find('img', class_='img').get('data-src')
-                    pairPrice = items.find('div', class_="precio").string
+        for items in mainSoup.find_all('a', class_='product'):
 
-                    af.write('\n' + pairLink)
+            pairLink  = 'https://www.digitalsport.com.ar' + items.get('href')        
+            filename  = 'dionyNewInLinks.txt'
 
-                    embed.set_title(title=pairTitle, url=pairLink)
-                    embed.set_thumbnail(url=pairImg)
-                    embed.add_field(name="Precio", value=pairPrice)
-                    embed.add_field(name="-", value="everyone")
+            with open(filename, 'r') as rf:
+                read = rf.read();
+                with open(filename, 'a') as af:
+                    if pairLink not in read:
+
+                        pairTitle = items.get('data-title')
+                        pairImg   = 'https://www.digitalsport.com.ar' + items.find('img', class_='img').get('data-src')
+                        pairPrice = items.find('div', class_="precio").string
+
+                        af.write('\n' + pairLink)
+
+                        embed.set_title(title=pairTitle, url=pairLink)
+                        embed.set_thumbnail(url=pairImg)
+                        embed.add_field(name="Precio", value=pairPrice)
+                        embed.add_field(name="-", value="everyone")
 
 
-                    discordWebhook.send(embed=embed)
-                    embed.del_field(0)
-                    embed.del_field(0)
+                        discordWebhook.send(embed=embed)
+                        embed.del_field(0)
+                        embed.del_field(0)
 
- 
-                else:
-                    print('No new links found')
+    
+                    else:
+                        print('No new links found')
 
 monitorDiony()
