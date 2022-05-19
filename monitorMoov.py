@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import randomheaders
 from dhooks import Webhook, Embed
+import time
 
 mainWH = "https://discord.com/api/webhooks/976612176213213194/2g5u5jtUu-TGM9UsKQFZk6yPGj3spdX1DUBMO4N5GspITM77liZ0f5MXafblvVNEBJOC"
 testWH = "https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv"
@@ -17,7 +18,7 @@ def monitorMoov():
     )
 
     coreLinks = ["https://www.moov.com.ar/hombre/calzado?srule=newest-products&start=0&sz=12", "https://www.moov.com.ar/marcas/nike?srule=newest-products&start=0&sz=12", "https://www.moov.com.ar/marcas/nike/nike?srule=newest-products&start=0&sz=12", "https://www.moov.com.ar/buscar?q=dunk&srule=newest-products&start=0&sz=12"]
-    discordWebhook = Webhook(testWH)
+    discordWebhook = Webhook(mainWH)
     
     for currentLink in coreLinks:
 
@@ -53,5 +54,7 @@ def monitorMoov():
     
                     else:
                         print('No new links found')
+while True:
 
-monitorMoov()
+    monitorMoov()
+    time.sleep(60)

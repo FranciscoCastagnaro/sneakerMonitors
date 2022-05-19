@@ -3,12 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import randomheaders
 from dhooks import Webhook, Embed
+import time
 
 mainWH = "https://discord.com/api/webhooks/976611966833524797/7U93EdmUQyUAPig2HMgcb078Yy9zDEgq1u3ReI26jb_HRC3UDCWZ18wi-8y6Pm5MSCFj"
 testWH = "https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv"
 
 def monitorDiony():
-    
+
     embed = Embed(
         description="**DIONYSOS**",
         color= 0xB61ABC,
@@ -16,7 +17,7 @@ def monitorDiony():
     )
 
     coreLinks = [f"https://www.digitalsport.com.ar/dionysos/prods/?sort=available_at%20desc&category[1]=1", f"https://www.digitalsport.com.ar/dionysos/prods/?category[1]=1&category[2]=25&sort=available_at%20desc", f"https://www.digitalsport.com.ar/dionysos/prods/?category[1]=1&category[2]=103&sort=available_at%20desc", f"https://www.digitalsport.com.ar/search/?search=dunk&sort=available_at%20desc", f"https://www.digitalsport.com.ar/search/?search=jordan&category[1]=1&sort=available_at%20desc"]
-    discordWebhook = Webhook(testWH)
+    discordWebhook = Webhook(mainWH)
 
     for currentLink in coreLinks:
 
@@ -52,5 +53,7 @@ def monitorDiony():
     
                     else:
                         print('No new links found')
+while True:
 
-monitorDiony()
+    monitorDiony()
+    time.sleep(60)

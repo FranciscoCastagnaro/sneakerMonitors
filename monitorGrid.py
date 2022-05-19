@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import randomheaders
 from dhooks import Webhook, Embed
+import time
 
 mainWH = "https://discord.com/api/webhooks/976611847056793600/sPcdalfPkw2t5mi4JE7WuYIh_RKXXt21cPpfdL-OlmkpCBuUT4JSEt91oeE6nFUbIFXh"
 testWH = "https://discord.com/api/webhooks/975826935546515467/EcvnApPJslrFu5-nPYYsVYY2OgTAyZynxOtU7Gbs-JQ4_XtVjvkIsg5tkuPopbcuhOsv"
@@ -16,7 +17,7 @@ def monitorGrid():
     )
 
     coreLinks = ["https://www.grid.com.ar/calzado/Hombre?PS=24&map=c,specificationFilter_23&O=OrderByReleaseDateDESC"]
-    discordWebhook = Webhook(testWH)
+    discordWebhook = Webhook(mainWH)
     
     for currentLink in coreLinks:
 
@@ -53,5 +54,7 @@ def monitorGrid():
     
                     else:
                         print('No new links found')
-
-monitorGrid()
+while True:
+    
+    monitorGrid()
+    time.sleep(60)
