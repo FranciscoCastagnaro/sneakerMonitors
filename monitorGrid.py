@@ -55,6 +55,5 @@ def monitorGrid():
                     else:
                         print('No new links found')
 while True:
-    
     monitorGrid()
     time.sleep(60)
